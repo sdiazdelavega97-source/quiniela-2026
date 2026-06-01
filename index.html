@@ -342,7 +342,7 @@ function render() {
   });
 }
 
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzKmuLHfAZF-q6OTCwtQc7J7KCZhjxa4L_N3nlAuIacmIVntR-g-Ce_bhut8WpS0lhN/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbw3uMdInTvpSbsj0Z4R9STRpbI_Fn3tvvw_5J2E3z1pVMIVHU3-h-9hHTzdAeRPCMwd/exec';
 
 async function enviar() {
   const nombre = document.getElementById('nombre').value.trim();
@@ -397,12 +397,8 @@ async function enviar() {
   btn.disabled = true;
 
   try {
-    await fetch(SHEET_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre, picks })
-    });
+    const params = new URLSearchParams({ nombre, picks: JSON.stringify(picks) });
+    await fetch(`${SHEET_URL}?${params.toString()}`, { method: 'GET', mode: 'no-cors' });
 
     let resumen = `Nombre: ${nombre}\n${'─'.repeat(40)}\n\n`;
     grupos.forEach(g => {
