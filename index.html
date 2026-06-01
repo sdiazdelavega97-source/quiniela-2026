@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiniela Mundial 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --border: #2a2a3a;
+    --accent: #c8a84b;
+    --accent2: #e8c96b;
+    --text: #f0f0f0;
+    --muted: #6a6a8a;
+    --red: #e05252;
+    --input-bg: #1a1a24;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+  .hero {
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a1410 50%, #0a0a0f 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 36px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(200,168,75,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .trophy { font-size: 2.8rem; margin-bottom: 10px; }
+  h1 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(2.4rem, 9vw, 4rem);
+    color: var(--accent);
+    letter-spacing: 4px;
+    line-height: 1;
+  }
+  .subtitle {
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .scoring {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+  .score-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+  .score-pill span { color: var(--accent); font-weight: 600; }
+  .container { max-width: 740px; margin: 0 auto; padding: 28px 16px 80px; }
+  .nombre-section {
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-bottom: 28px;
+  }
+  .nombre-label {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .nombre-input {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .nombre-input:focus { border-color: var(--accent); }
+  .nombre-input::placeholder { color: var(--muted); }
+  .group-block {
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .group-header {
+    background: var(--surface);
+    padding: 11px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .group-letter {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.3rem;
+    color: var(--accent);
+    background: rgba(200,168,75,0.1);
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    border: 1px solid rgba(200,168,75,0.25);
+  }
+  .group-title { font-size: 0.72rem; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; }
+  .match-row {
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(42,42,58,0.4);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg);
+    transition: background 0.15s;
+  }
+  .match-row:last-child { border-bottom: none; }
+  .match-row:hover { background: #0d0d16; }
+  .team {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .team.right { flex-direction: row-reverse; }
+  .flag { font-size: 1.25rem; line-height: 1; }
+  .team-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .score-inputs {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .score-input {
+    width: 38px;
+    height: 38px;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.2rem;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    -moz-appearance: textfield;
+  }
+  .score-input::-webkit-inner-spin-button,
+  .score-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+  .score-input:focus { border-color: var(--accent); background: #1e1e2a; }
+  .score-input.error { border-color: var(--red); background: rgba(224,82,82,0.08); }
+  .match-row.error { background: rgba(224,82,82,0.05); }
+  .match-row.error .team-name { color: var(--red); }
+  .score-sep {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1rem;
+    color: var(--muted);
+  }
+  .submit-section { text-align: center; margin-top: 32px; }
+  .submit-btn {
+    background: var(--accent);
+    color: #0a0a0f;
+    border: none;
+    padding: 16px 52px;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.3rem;
+    letter-spacing: 3px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .submit-btn:hover { background: var(--accent2); transform: translateY(-1px); }
+  .submit-btn:active { transform: translateY(0); }
+  .result-panel {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 24px;
+    margin-top: 28px;
+  }
+  .result-panel.show { display: block; }
+  .result-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.4rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .result-text {
+    font-size: 0.76rem;
+    color: var(--muted);
+    white-space: pre-wrap;
+    line-height: 1.9;
+    font-family: 'Courier New', monospace;
+    background: var(--input-bg);
+    border-radius: 6px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .copy-btn {
+    margin-top: 12px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 9px 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .copy-btn:hover { background: rgba(200,168,75,0.1); }
+  .error-msg { color: var(--red); font-size: 0.78rem; margin-top: 8px; display: none; }
+  .error-msg.show { display: block; }
+  @media (max-width: 500px) {
+    .team-name { font-size: 0.68rem; }
+    .score-input { width: 34px; height: 34px; }
+    .match-row { padding: 10px 12px; gap: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="trophy">🏆</div>
+  <h1>Quiniela Mundial 2026</h1>
+  <p class="subtitle">Fase de Grupos &nbsp;·&nbsp; USA &nbsp;·&nbsp; Canadá &nbsp;·&nbsp; México</p>
+  <div class="scoring">
+    <div class="score-pill"><span>3 pts</span> resultado correcto</div>
+    <div class="score-pill"><span>+1 pt</span> marcador exacto</div>
+    <div class="score-pill"><span>+1 pt</span> total de goles</div>
+    <div class="score-pill"><span>5 pts</span> máximo por partido</div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="nombre-section">
+    <div class="nombre-label">Tu nombre</div>
+    <input type="text" class="nombre-input" id="nombre" placeholder="Escribe tu nombre completo...">
+    <div class="error-msg" id="error-nombre">Escribe tu nombre antes de continuar.</div>
+  </div>
+
+  <div id="grupos"></div>
+
+  <div class="submit-section">
+    <button class="submit-btn" id="submit-btn" onclick="enviar()">Enviar mis picks</button>
+    <div class="error-msg" id="error-general" style="text-align:center; margin-top:10px;"></div>
+  </div>
+
+  <div class="result-panel" id="result">
+    <div class="result-title">Picks enviados</div>
+    <div class="result-text" id="result-text"></div>
+  </div>
+</div>
+
+<script>
+const grupos = [
+  { letra: 'A', equipos: [['México','🇲🇽'],['Sudáfrica','🇿🇦'],['Corea del Sur','🇰🇷'],['Chequia','🇨🇿']] },
+  { letra: 'B', equipos: [['Canadá','🇨🇦'],['Bosnia y Herzegovina','🇧🇦'],['Catar','🇶🇦'],['Suiza','🇨🇭']] },
+  { letra: 'C', equipos: [['Brasil','🇧🇷'],['Marruecos','🇲🇦'],['Haití','🇭🇹'],['Escocia','🏴󠁧󠁢󠁳󠁣󠁴󠁿']] },
+  { letra: 'D', equipos: [['EE. UU.','🇺🇸'],['Paraguay','🇵🇾'],['Australia','🇦🇺'],['Turquía','🇹🇷']] },
+  { letra: 'E', equipos: [['Alemania','🇩🇪'],['Curazao','🇨🇼'],['Costa de Marfil','🇨🇮'],['Ecuador','🇪🇨']] },
+  { letra: 'F', equipos: [['Países Bajos','🇳🇱'],['Japón','🇯🇵'],['Suecia','🇸🇪'],['Túnez','🇹🇳']] },
+  { letra: 'G', equipos: [['Bélgica','🇧🇪'],['Egipto','🇪🇬'],['Irán','🇮🇷'],['Nueva Zelanda','🇳🇿']] },
+  { letra: 'H', equipos: [['España','🇪🇸'],['Islas de Cabo Verde','🇨🇻'],['Arabia Saudí','🇸🇦'],['Uruguay','🇺🇾']] },
+  { letra: 'I', equipos: [['Francia','🇫🇷'],['Senegal','🇸🇳'],['Irak','🇮🇶'],['Noruega','🇳🇴']] },
+  { letra: 'J', equipos: [['Argentina','🇦🇷'],['Argelia','🇩🇿'],['Austria','🇦🇹'],['Jordania','🇯🇴']] },
+  { letra: 'K', equipos: [['Portugal','🇵🇹'],['RD Congo','🇨🇩'],['Uzbekistán','🇺🇿'],['Colombia','🇨🇴']] },
+  { letra: 'L', equipos: [['Inglaterra','🏴󠁧󠁢󠁥󠁮󠁧󠁿'],['Croacia','🇭🇷'],['Ghana','🇬🇭'],['Panamá','🇵🇦']] },
+];
+
+function getPartidos(equipos) {
+  const pares = [];
+  for (let i = 0; i < equipos.length; i++)
+    for (let j = i + 1; j < equipos.length; j++)
+      pares.push([equipos[i], equipos[j]]);
+  return pares;
+}
+
+function render() {
+  const cont = document.getElementById('grupos');
+  grupos.forEach(g => {
+    const partidos = getPartidos(g.equipos);
+    let html = `<div class="group-block">
+      <div class="group-header">
+        <div class="group-letter">${g.letra}</div>
+        <div class="group-title">Grupo ${g.letra}</div>
+      </div>`;
+    partidos.forEach((p, i) => {
+      const id = `${g.letra}_${i}`;
+      html += `<div class="match-row">
+        <div class="team left">
+          <span class="flag">${p[0][1]}</span>
+          <span class="team-name">${p[0][0]}</span>
+        </div>
+        <div class="score-inputs">
+          <input type="number" class="score-input" id="${id}_l" min="0" max="20" placeholder="-">
+          <span class="score-sep">—</span>
+          <input type="number" class="score-input" id="${id}_r" min="0" max="20" placeholder="-">
+        </div>
+        <div class="team right">
+          <span class="flag">${p[1][1]}</span>
+          <span class="team-name">${p[1][0]}</span>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+    cont.innerHTML += html;
+  });
+}
+
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzKmuLHfAZF-q6OTCwtQc7J7KCZhjxa4L_N3nlAuIacmIVntR-g-Ce_bhut8WpS0lhN/exec';
+
+async function enviar() {
+  const nombre = document.getElementById('nombre').value.trim();
+  const errNombre = document.getElementById('error-nombre');
+  const errGeneral = document.getElementById('error-general');
+  const btn = document.getElementById('submit-btn');
+
+  // Limpia errores anteriores
+  document.querySelectorAll('.score-input.error').forEach(el => el.classList.remove('error'));
+  document.querySelectorAll('.match-row.error').forEach(el => el.classList.remove('error'));
+  errGeneral.classList.remove('show');
+
+  if (!nombre) { errNombre.classList.add('show'); return; }
+  errNombre.classList.remove('show');
+
+  // Valida y recolecta picks
+  const picks = {};
+  let faltantes = 0;
+  let primerFaltante = null;
+
+  grupos.forEach(g => {
+    getPartidos(g.equipos).forEach((p, i) => {
+      const id = `${g.letra}_${i}`;
+      const inputL = document.getElementById(`${id}_l`);
+      const inputR = document.getElementById(`${id}_r`);
+      const l = inputL.value;
+      const r = inputR.value;
+
+      const incompleto = (l === '' || r === '');
+      if (incompleto) {
+        faltantes++;
+        // Marca en rojo los inputs y la fila
+        if (l === '') inputL.classList.add('error');
+        if (r === '') inputR.classList.add('error');
+        inputL.closest('.match-row').classList.add('error');
+        if (!primerFaltante) primerFaltante = inputL;
+      } else {
+        picks[id] = { l, r };
+      }
+    });
+  });
+
+  if (faltantes > 0) {
+    errGeneral.textContent = `Faltan ${faltantes} partido${faltantes > 1 ? 's' : ''} por completar. Están marcados en rojo.`;
+    errGeneral.classList.add('show');
+    primerFaltante.closest('.group-block').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  // Todo completo — envía
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre, picks })
+    });
+
+    let resumen = `Nombre: ${nombre}\n${'─'.repeat(40)}\n\n`;
+    grupos.forEach(g => {
+      resumen += `GRUPO ${g.letra}\n`;
+      getPartidos(g.equipos).forEach((p, i) => {
+        const id = `${g.letra}_${i}`;
+        resumen += `  ${p[0][0]} vs ${p[1][0]}: ${picks[id].l} - ${picks[id].r}\n`;
+      });
+      resumen += '\n';
+    });
+
+    document.getElementById('result-text').textContent = resumen;
+    document.getElementById('result').classList.add('show');
+    btn.textContent = 'Enviado';
+    setTimeout(() => document.getElementById('result').scrollIntoView({ behavior: 'smooth' }), 100);
+
+  } catch (err) {
+    errGeneral.textContent = 'Error al enviar. Intenta de nuevo.';
+    errGeneral.classList.add('show');
+    btn.textContent = 'Enviar mis picks';
+    btn.disabled = false;
+  }
+
+  // Al corregir un input en rojo, quita el error
+  document.querySelectorAll('.score-input').forEach(input => {
+    input.addEventListener('input', () => {
+      input.classList.remove('error');
+      const row = input.closest('.match-row');
+      const inputs = row.querySelectorAll('.score-input');
+      if ([...inputs].every(i => i.value !== '')) row.classList.remove('error');
+      if (document.querySelectorAll('.match-row.error').length === 0) {
+        errGeneral.classList.remove('show');
+      }
+    }, { once: true });
+  });
+}
+
+render();
+</script>
+</body>
+</html>
